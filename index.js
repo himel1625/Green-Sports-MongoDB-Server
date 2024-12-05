@@ -35,17 +35,49 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    app.put('/products/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = req.body;
+      const updateProducts = {
+        $set: {
+          image: updateDoc.image,
+          itemName: updateDoc.itemName,
+          category: updateDoc.category,
+          description: updateDoc.description,
+          price: updateDoc.price,
+          rating: updateDoc.rating,
+          customization: updateDoc.customization,
+          processingTime: updateDoc.processingTime,
+          stockStatus: updateDoc.stockStatus,
+        },
+      };
+      const result = await SportsCollection.updateOne(
+        filter,
+        updateProducts,
+        options
+      );
+      res.res(result);
+    });
+    
     app.get('/AllProducts', async (req, res) => {
       const cursor = SportsCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
-    
+    app.get('/Details', async (req, res) => {
+      const cursor = SportsCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     app.delete('/AllProducts/:id', async (req, res) => {
       const id = req.params.id;
-      const query = { _id: new ObjectId(id)}
-      const result = await SportsCollection.deleteOne(query)
-      res.send(result)
+      const query = { _id: new ObjectId(id) };
+      const result = await SportsCollection.deleteOne(query);
+      res.send(result);
     });
 
     console.log(
