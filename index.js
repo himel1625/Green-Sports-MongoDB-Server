@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -27,11 +27,29 @@ async function run() {
     app.post('/products', async (req, res) => {
       const item = req.body;
       const result = await SportsCollection.insertOne(item);
+      res.send(result);
+    });
+
+    app.get('/products', async (req, res) => {
+      const cursor = SportsCollection.find().limit(6);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    app.get('/AllProducts', async (req, res) => {
+      const cursor = SportsCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    
+    app.delete('/AllProducts/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id)}
+      const result = await SportsCollection.deleteOne(query)
       res.send(result)
     });
 
     console.log(
-      'Pinged your deployment. You successfully connected to MongoDB!',
+      'Pinged your deployment. You successfully connected to MongoDB!'
     );
   } finally {
     // Ensures that the client will close when you finish/error
