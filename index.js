@@ -1,7 +1,7 @@
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const express = require('express');
-const cors = require('cors');
 require('dotenv').config();
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const cors = require('cors');
+const express = require('express');
 const port = process.env.PORT || 4000;
 const app = express();
 // middleware
@@ -20,9 +20,9 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
+    // await client.connect();
     const SportsCollection = client.db('SportsDB').collection('Sports');
-    await client.db('admin').command({ ping: 1 });
+    // await client.db('admin').command({ ping: 1 });
 
     app.post('/products', async (req, res) => {
       const item = req.body;
@@ -36,7 +36,7 @@ async function run() {
       res.send(result);
     });
 
-    app.put('/products/:id', async (req, res) => {
+    app.put('/AllProducts/:id', async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const options = { upsert: true };
@@ -59,7 +59,7 @@ async function run() {
         updateProducts,
         options
       );
-      res.res(result);
+      res.send(result);
     });
     
     app.get('/AllProducts', async (req, res) => {
@@ -80,9 +80,9 @@ async function run() {
       res.send(result);
     });
 
-    console.log(
-      'Pinged your deployment. You successfully connected to MongoDB!'
-    );
+    // console.log(
+    //   'Pinged your deployment. You successfully connected to MongoDB!'
+    // );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
