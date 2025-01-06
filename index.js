@@ -24,47 +24,16 @@ async function run() {
     const SportsCollection = client.db('SportsDB').collection('Sports');
     // await client.db('admin').command({ ping: 1 });
 
-    app.post('/products', async (req, res) => {
-      const item = req.body;
-      const result = await SportsCollection.insertOne(item);
-      res.send(result);
-    });
+    // app.post('/products', async (req, res) => {
+    //   const item = req.body;
+    //   const result = await SportsCollection.insertOne(item);
+    //   res.send(result);
+    // });
 
     app.get('/products', async (req, res) => {
-      // const page = parseInt(req.query.page);
-      // const size = parseInt(req.query.size);
-      // .skip(page * size)
-      //   .limit(size)
-      // console.log(page, size);
       const result = await SportsCollection.find().toArray();
       res.send(result);
     });
-
-    // app.put('/AllProducts/:id', async (req, res) => {
-    //   const id = req.params.id;
-    //   const filter = { _id: new ObjectId(id) };
-    //   const options = { upsert: true };
-    //   const updateDoc = req.body;
-    //   const updateProducts = {
-    //     $set: {
-    //       image: updateDoc.image,
-    //       itemName: updateDoc.itemName,
-    //       category: updateDoc.category,
-    //       description: updateDoc.description,
-    //       price: updateDoc.price,
-    //       rating: updateDoc.rating,
-    //       customization: updateDoc.customization,
-    //       processingTime: updateDoc.processingTime,
-    //       stockStatus: updateDoc.stockStatus,
-    //     },
-    //   };
-    //   const result = await SportsCollection.updateOne(
-    //     filter,
-    //     updateProducts,
-    //     options,
-    //   );
-    //   res.send(result);
-    // });
 
     app.get('/Details', async (req, res) => {
       const cursor = SportsCollection.find();
@@ -72,9 +41,9 @@ async function run() {
       res.send(result);
     });
 
-    console.log(
-      'Pinged your deployment. You successfully connected to MongoDB!',
-    );
+    // console.log(
+    //   'Pinged your deployment. You successfully connected to MongoDB!',
+    // );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
